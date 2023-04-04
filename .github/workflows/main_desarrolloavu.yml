@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'desarrolloavu'
           slot-name: 'Production'
-          publish-profile:  ${{ secrets.AZURE_WEBAPP_PUBLISH_USERNAME }}:${{ secrets.AZURE_WEBAPP_PUBLISH_PASSWORD }}
+          publish-profile:  ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_0E833692FF2B483F9F3C9992D473BD65 }}
           package: .
