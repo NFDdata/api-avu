@@ -12,6 +12,8 @@ const app_controller_1 = require("./app.controller");
 const config_1 = require("@nestjs/config");
 const app_service_1 = require("./app.service");
 const schedule_1 = require("@nestjs/schedule");
+const users_module_1 = require("./users/users.module");
+const mongoose_1 = require("@nestjs/mongoose");
 const health_module_1 = require("./health/health.module");
 const app_config_1 = require("./config/app.config");
 const joi_validation_1 = require("./config/joi.validation");
@@ -25,6 +27,8 @@ AppModule = __decorate([
                 load: [app_config_1.EnvConfiguration],
                 validationSchema: joi_validation_1.JoiValidationSchema,
             }),
+            mongoose_1.MongooseModule.forRoot(process.env.MONGODB),
+            users_module_1.UsersModule,
             health_module_1.HealthModule,
         ],
         controllers: [app_controller_1.AppController],
