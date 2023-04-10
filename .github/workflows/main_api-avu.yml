@@ -29,8 +29,8 @@ jobs:
         shell: pwsh
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          yarn install
-          yarn run build
+          npm install
+          npm run build
           popd
 
       - name: 'Run Azure Functions Action'
