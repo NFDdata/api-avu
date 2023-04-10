@@ -5,9 +5,9 @@ import { ConfigModule } from '@nestjs/config';
 import { AppService } from './app.service';
 
 import { ScheduleModule } from '@nestjs/schedule';
-// import { UsersModule } from './users/users.module';
+import { UsersModule } from './users/users.module';
 
-// import { MongooseModule } from '@nestjs/mongoose';
+import { MongooseModule } from '@nestjs/mongoose';
 import { HealthModule } from './health/health.module';
 import { EnvConfiguration } from './config/app.config';
 import { JoiValidationSchema } from './config/joi.validation';
@@ -19,8 +19,8 @@ import { JoiValidationSchema } from './config/joi.validation';
       load: [EnvConfiguration],
       validationSchema: JoiValidationSchema,
     }),
-    // MongooseModule.forRoot(process.env.MONGODB),
-    // UsersModule,
+    MongooseModule.forRoot(process.env.MONGODB),
+    UsersModule,
     HealthModule,
   ],
   controllers: [AppController],
