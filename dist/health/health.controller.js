@@ -19,14 +19,14 @@ let HealthController = class HealthController {
     }
     checkDB() {
         return this.health.check([
-            async () => this.mongoose.pingCheck('ZeroCompanyMongoDB'),
+            async () => this.mongoose.pingCheck('ZeroCompanyMongoDB')
         ]);
     }
     about() {
         return {
             title: process.env.TITLE,
             version: process.env.VERSION,
-            description: process.env.DESCRIPTION,
+            description: process.env.DESCRIPTION
         };
     }
 };

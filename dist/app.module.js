@@ -9,30 +9,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
-const config_1 = require("@nestjs/config");
 const app_service_1 = require("./app.service");
-const schedule_1 = require("@nestjs/schedule");
-const users_module_1 = require("./users/users.module");
-const mongoose_1 = require("@nestjs/mongoose");
-const health_module_1 = require("./health/health.module");
-const app_config_1 = require("./config/app.config");
-const joi_validation_1 = require("./config/joi.validation");
+const app_imports_1 = require("./app.imports");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            schedule_1.ScheduleModule.forRoot(),
-            config_1.ConfigModule.forRoot({
-                load: [app_config_1.EnvConfiguration],
-                validationSchema: joi_validation_1.JoiValidationSchema,
-            }),
-            mongoose_1.MongooseModule.forRoot(process.env.MONGODB),
-            users_module_1.UsersModule,
-            health_module_1.HealthModule,
-        ],
+        imports: [...(0, app_imports_1.AppImports)(process.env)],
         controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        providers: [app_service_1.AppService]
     })
 ], AppModule);
 exports.AppModule = AppModule;

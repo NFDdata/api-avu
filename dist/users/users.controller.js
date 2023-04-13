@@ -23,7 +23,6 @@ let UsersController = class UsersController {
         return await this.userService.findAll();
     }
     async create(req) {
-        console.log('users', req.body);
         return await this.userService.create(req.body);
     }
 };

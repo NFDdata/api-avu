@@ -1,20 +1,22 @@
 {
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": "tsconfig.json",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
     "sourceType": "module"
   },
   "plugins": [
     "@typescript-eslint/eslint-plugin",
     "eslint-plugin-prettier",
-    "react",
-    "jsx-a11y",
+    "prettier",
     "import"
   ],
   "extends": [
     "eslint-config-prettier",
     "eslint:recommended",
-    "plugin:react/recommended",
+    "prettier",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
   ],
@@ -24,6 +26,48 @@
     "jest": true
   },
   "rules": {
+    // rokket labs eslint config
+    "import/named": "off",
+    "import/default": "error",
+    "import/no-duplicates": "error",
+    "array-callback-return": "error",
+    "block-scoped-var": "error",
+    "curly": ["error", "multi"],
+    "default-case": "error",
+    "dot-notation": ["error", { "allowPattern": "^[a-z]+(_[a-z]+)+$" }],
+    "eqeqeq": "error",
+    "no-case-declarations": "error",
+    "no-eq-null": "error",
+    "no-fallthrough": "error",
+    "no-octal": "error",
+    "no-redeclare": "error",
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "no-cond-assign": "error",
+    "no-control-regex": "error",
+    "no-debugger": "error",
+    "no-dupe-args": "error",
+    "no-dupe-keys": "error",
+    "no-duplicate-case": "error",
+    "no-empty": "error",
+    "no-empty-character-class": "error",
+    "no-ex-assign": "error",
+    "no-extra-boolean-cast": "error",
+    "no-func-assign": "error",
+    "no-inner-declarations": ["error", "functions"],
+    "no-invalid-regexp": "error",
+    "no-irregular-whitespace": "error",
+    "no-obj-calls": "error",
+    "no-regex-spaces": "error",
+    "no-sparse-arrays": "error",
+    "no-unreachable": "error",
+    "no-unsafe-finally": "error",
+    "no-unsafe-negation": "error",
+    "use-isnan": "error",
+    "valid-typeof": "error",
+    // end rokket labs eslint config
+    "@typescript-eslint/no-unused-vars": ["error"],
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["error"],
     "semi": "error",
     "@typescript-eslint/interface-name-prefix": "off",
     "@typescript-eslint/explicit-function-return-type": "off",

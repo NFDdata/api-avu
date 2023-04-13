@@ -9,21 +9,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersModule = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
-const mongoose_1 = require("@nestjs/mongoose");
 const user_schema_1 = require("./schema/user.schema");
 const users_controller_1 = require("./users.controller");
 const users_service_1 = require("./users.service");
+const nestjs_typegoose_1 = require("nestjs-typegoose");
 let UsersModule = class UsersModule {
 };
 UsersModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            mongoose_1.MongooseModule.forFeature([{ name: user_schema_1.User.name, schema: user_schema_1.UserSchema }]),
-            config_1.ConfigModule,
+            nestjs_typegoose_1.TypegooseModule.forFeature([
+                { typegooseClass: user_schema_1.User, schemaOptions: { timestamps: true } }
+            ]),
+            config_1.ConfigModule
         ],
         controllers: [users_controller_1.UsersController],
         providers: [users_service_1.UserService],
-        exports: [users_service_1.UserService],
+        exports: [users_service_1.UserService]
     })
 ], UsersModule);
 exports.UsersModule = UsersModule;

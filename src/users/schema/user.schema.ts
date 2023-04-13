@@ -1,22 +1,15 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Index, prop } from '@typegoose/typegoose';
 
-@Schema()
-export class User extends Document {
-  @Prop({ required: true, unique: true, index: true })
+import { MongoProps } from '../../helpers/metadata.model';
+
+@Index({ documentNumber: 1 }, { unique: true })
+export class User extends MongoProps {
+  @prop({ required: true, unique: true })
   name: string;
 
-  @Prop({ required: true, unique: true, index: true })
+  @prop({ required: true, unique: true })
   email: string;
 
-  @Prop({ required: true })
+  @prop({ required: true, select: false })
   password: string;
-
-  // @Prop({ required: true, default: () => new Date() })
-  // createdAt: Date;
-
-  // @Prop({ required: false, default: null })
-  // updatedAt: Date;
 }
-
-export const UserSchema = SchemaFactory.createForClass(User);

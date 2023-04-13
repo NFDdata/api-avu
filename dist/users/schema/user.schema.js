@@ -9,26 +9,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserSchema = exports.User = void 0;
-const mongoose_1 = require("@nestjs/mongoose");
-const mongoose_2 = require("mongoose");
-let User = class User extends mongoose_2.Document {
+exports.User = void 0;
+const typegoose_1 = require("@typegoose/typegoose");
+const metadata_model_1 = require("../../helpers/metadata.model");
+let User = class User extends metadata_model_1.MongoProps {
 };
 __decorate([
-    (0, mongoose_1.Prop)({ required: true, unique: true, index: true }),
+    (0, typegoose_1.prop)({ required: true, unique: true }),
     __metadata("design:type", String)
 ], User.prototype, "name", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true, unique: true, index: true }),
+    (0, typegoose_1.prop)({ required: true, unique: true }),
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true }),
+    (0, typegoose_1.prop)({ required: true, select: false }),
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 User = __decorate([
-    (0, mongoose_1.Schema)()
+    (0, typegoose_1.Index)({ documentNumber: 1 }, { unique: true })
 ], User);
 exports.User = User;
-exports.UserSchema = mongoose_1.SchemaFactory.createForClass(User);
 //# sourceMappingURL=user.schema.js.map

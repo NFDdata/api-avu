@@ -1,3 +1,4 @@
+/// <reference types="mongoose/types/models" />
 import { Model } from 'mongoose';
 import { User } from './schema/user.schema';
 import { CreateUserDto } from './dto/createUser.dto';

@@ -1,7 +1,6 @@
-import { Body, Controller, Get, Post, Request } from '@nestjs/common';
+import { Controller, Get, Post, Request } from '@nestjs/common';
 import { User } from './schema/user.schema';
 import { UserService } from './users.service';
-import { CreateUserDto } from './dto/createUser.dto';
 
 @Controller('users')
 export class UsersController {
@@ -14,7 +13,6 @@ export class UsersController {
 
   @Post()
   async create(@Request() req): Promise<User> {
-    console.log('users', req.body);
     return await this.userService.create(req.body);
   }
 }
