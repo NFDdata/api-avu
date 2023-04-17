@@ -1,5 +1,6 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import * as bodyParser from 'body-parser';
 
 import { AppModule } from './app.module';
 
@@ -17,6 +18,8 @@ async function bootstrap() {
     })
   );
 
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
   app.enableShutdownHooks();
   app.enableCors();
 

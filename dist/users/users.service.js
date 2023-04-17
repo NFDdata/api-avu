@@ -14,9 +14,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
-const mongoose_1 = require("@nestjs/mongoose");
-const mongoose_2 = require("mongoose");
 const user_schema_1 = require("./schema/user.schema");
+const nestjs_typegoose_1 = require("nestjs-typegoose");
 let UserService = class UserService {
     constructor(userModel) {
         this.userModel = userModel;
@@ -26,13 +25,21 @@ let UserService = class UserService {
         return users;
     }
     async create(user) {
-        return await this.userModel.create(user);
+        const createdUser = new this.userModel(user).save();
+        return createdUser;
+    }
+    async findOneBy(query) {
+        const findUser = await this.userModel.findOne(query);
+        return findUser;
+    }
+    async delete(_id) {
+        return this.userModel.findByIdAndRemove(_id);
     }
 };
 UserService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)(user_schema_1.User.name)),
-    __metadata("design:paramtypes", [mongoose_2.Model])
+    __param(0, (0, nestjs_typegoose_1.InjectModel)(user_schema_1.User)),
+    __metadata("design:paramtypes", [Object])
 ], UserService);
 exports.UserService = UserService;
 //# sourceMappingURL=users.service.js.map

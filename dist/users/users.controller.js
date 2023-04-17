@@ -22,8 +22,14 @@ let UsersController = class UsersController {
     async findAll() {
         return await this.userService.findAll();
     }
+    async findOneBy(req) {
+        return await this.userService.findOneBy(req.query);
+    }
     async create(req) {
         return await this.userService.create(req.body);
+    }
+    async delete(body) {
+        return await this.userService.delete(body.id);
     }
 };
 __decorate([
@@ -33,12 +39,26 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "findAll", null);
 __decorate([
+    (0, common_1.Get)('find'),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "findOneBy", null);
+__decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "create", null);
+__decorate([
+    (0, common_1.Delete)(),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "delete", null);
 UsersController = __decorate([
     (0, common_1.Controller)('users'),
     __metadata("design:paramtypes", [users_service_1.UserService])
