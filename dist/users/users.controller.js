@@ -19,44 +19,94 @@ let UsersController = class UsersController {
     constructor(userService) {
         this.userService = userService;
     }
-    async findAll() {
-        return await this.userService.findAll();
+    async findAll(res) {
+        try {
+            const users = await this.userService.findAll();
+            return res
+                .status(200)
+                .json({ status: 200, message: 'all users', users })
+                .send();
+        }
+        catch (error) {
+            console.error(error);
+            return res.status(500).json({ status: 500, error }).send();
+        }
     }
-    async findOneBy(req) {
-        return await this.userService.findOneBy(req.query);
+    async findOneBy(req, res) {
+        try {
+            const findUsers = await this.userService.findOneBy(req.query);
+            if (!findUsers)
+                throw new common_1.HttpException('Not Found Users', common_1.HttpStatus.NOT_FOUND);
+            return res
+                .status(200)
+                .json({ status: 200, message: 'find user(s)', findUsers })
+                .send();
+        }
+        catch (error) {
+            console.error(error);
+            return res.status(500).json({ status: 500, error }).send();
+        }
     }
-    async create(req) {
-        return await this.userService.create(req.body);
+    async create(req, res) {
+        try {
+            const createdUser = await this.userService.create(req.body);
+            return res
+                .status(200)
+                .json({ status: 200, message: 'created user', createdUser })
+                .send();
+        }
+        catch (error) {
+            console.error(error);
+            return res.status(500).json({ status: 500, error }).send();
+        }
     }
-    async delete(body) {
-        return await this.userService.delete(body.id);
+    async delete(body, res) {
+        try {
+            const deletedUser = await this.userService.delete(body.id);
+            return res
+                .status(200)
+                .json({ status: 200, message: 'deleted user', deletedUser })
+                .send();
+        }
+        catch (error) {
+            console.error(error);
+            return res.status(500).json({ status: 500, error }).send();
+        }
     }
 };
 __decorate([
     (0, common_1.Get)(),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    __param(0, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)('find'),
-    __param(0, (0, common_1.Request)()),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "findOneBy", null);
 __decorate([
     (0, common_1.Post)(),
-    __param(0, (0, common_1.Request)()),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "create", null);
 __decorate([
     (0, common_1.Delete)(),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "delete", null);
 UsersController = __decorate([
