@@ -29,7 +29,10 @@ let UsersController = class UsersController {
         }
         catch (error) {
             console.error(error);
-            return res.status(500).json({ status: 500, error }).send();
+            return res
+                .status(500)
+                .json({ status: 500, error: error.response })
+                .send();
         }
     }
     async findOneBy(req, res) {
@@ -44,7 +47,10 @@ let UsersController = class UsersController {
         }
         catch (error) {
             console.error(error);
-            return res.status(500).json({ status: 500, error }).send();
+            return res
+                .status(500)
+                .json({ status: 500, error: error.response })
+                .send();
         }
     }
     async create(req, res) {
@@ -57,7 +63,10 @@ let UsersController = class UsersController {
         }
         catch (error) {
             console.error(error);
-            return res.status(500).json({ status: 500, error }).send();
+            return res
+                .status(500)
+                .json({ status: 500, error: error.response })
+                .send();
         }
     }
     async delete(body, res) {

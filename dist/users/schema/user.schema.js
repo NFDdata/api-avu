@@ -15,6 +15,10 @@ const metadata_model_1 = require("../../helpers/metadata.model");
 let User = class User extends metadata_model_1.MongoProps {
 };
 __decorate([
+    (0, typegoose_1.prop)({ _id: true }),
+    __metadata("design:type", String)
+], User.prototype, "_id", void 0);
+__decorate([
     (0, typegoose_1.prop)({ required: true, unique: true }),
     __metadata("design:type", String)
 ], User.prototype, "name", void 0);
@@ -23,7 +27,15 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
-    (0, typegoose_1.prop)({ required: true, select: false }),
+    (0, typegoose_1.prop)({ unique: true }),
+    __metadata("design:type", String)
+], User.prototype, "documentNumber", void 0);
+__decorate([
+    (0, typegoose_1.prop)(),
+    __metadata("design:type", String)
+], User.prototype, "documentType", void 0);
+__decorate([
+    (0, typegoose_1.prop)({ required: true }),
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 User = __decorate([

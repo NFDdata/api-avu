@@ -1,5 +1,7 @@
 export class CreateUserDto {
-  readonly name: string;
-  readonly email: string;
-  readonly password: string;
+  name: string;
+  email: string;
+  documentNumber: string;
+  documentType: string;
+  password: string;
 }

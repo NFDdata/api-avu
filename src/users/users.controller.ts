@@ -32,7 +32,10 @@ export class UsersController {
     } catch (error) {
       console.error(error);
 
-      return res.status(500).json({ status: 500, error }).send();
+      return res
+        .status(500)
+        .json({ status: 500, error: error.response })
+        .send();
     }
   }
 
@@ -55,7 +58,10 @@ export class UsersController {
     } catch (error) {
       console.error(error);
 
-      return res.status(500).json({ status: 500, error }).send();
+      return res
+        .status(500)
+        .json({ status: 500, error: error.response })
+        .send();
     }
   }
 
@@ -72,7 +78,10 @@ export class UsersController {
     } catch (error) {
       console.error(error);
 
-      return res.status(500).json({ status: 500, error }).send();
+      return res
+        .status(500)
+        .json({ status: 500, error: error.response })
+        .send();
     }
   }
 

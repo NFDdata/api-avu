@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypegooseModule } from 'nestjs-typegoose';
 import { TerminusModule } from '@nestjs/terminus';
 import { HealthModule } from './health/health.module';
+import { AuthModule } from './auth/auth.module';
 
 export const AppImports = (
   env: NodeJS.ProcessEnv
@@ -30,6 +31,7 @@ export const AppImports = (
     }),
     TerminusModule,
     UsersModule,
+    AuthModule,
     HealthModule
   ];
 };

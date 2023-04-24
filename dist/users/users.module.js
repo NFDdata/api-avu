@@ -9,6 +9,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersModule = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
+const jwt_1 = require("@nestjs/jwt");
+const passport_1 = require("@nestjs/passport");
 const user_schema_1 = require("./schema/user.schema");
 const users_controller_1 = require("./users.controller");
 const users_service_1 = require("./users.service");
@@ -21,7 +23,18 @@ UsersModule = __decorate([
             nestjs_typegoose_1.TypegooseModule.forFeature([
                 { typegooseClass: user_schema_1.User, schemaOptions: { timestamps: true } }
             ]),
-            config_1.ConfigModule
+            config_1.ConfigModule,
+            passport_1.PassportModule.register({ defaultStrategy: 'jwt' }),
+            jwt_1.JwtModule.registerAsync({
+                imports: [config_1.ConfigModule],
+                useFactory: async (config) => ({
+                    secret: config.get('JWT_SECRET', process.env.JWT_SECRET),
+                    signOptions: {
+                        expiresIn: 3600
+                    }
+                }),
+                inject: [config_1.ConfigService]
+            })
         ],
         controllers: [users_controller_1.UsersController],
         providers: [users_service_1.UserService],
