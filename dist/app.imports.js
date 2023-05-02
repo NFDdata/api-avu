@@ -8,6 +8,7 @@ const nestjs_typegoose_1 = require("nestjs-typegoose");
 const terminus_1 = require("@nestjs/terminus");
 const health_module_1 = require("./health/health.module");
 const auth_module_1 = require("./auth/auth.module");
+const email_module_1 = require("./email/email.module");
 const AppImports = (env) => {
     return [
         schedule_1.ScheduleModule.forRoot(),
@@ -27,6 +28,7 @@ const AppImports = (env) => {
         terminus_1.TerminusModule,
         users_module_1.UsersModule,
         auth_module_1.AuthModule,
+        email_module_1.EmailModule,
         health_module_1.HealthModule
     ];
 };
