@@ -6,7 +6,6 @@ import { TypegooseModule } from 'nestjs-typegoose';
 import { TerminusModule } from '@nestjs/terminus';
 import { HealthModule } from './health/health.module';
 import { AuthModule } from './auth/auth.module';
-import { EmailModule } from './email/email.module';
 
 export const AppImports = (
   env: NodeJS.ProcessEnv
@@ -24,16 +23,13 @@ export const AppImports = (
       useFactory: async () => ({
         uri: env.MONGODB,
         useNewUrlParser: true,
-        // useCreateIndex: true,
         useUnifiedTopology: true
-        // useFindAndModify: false
       }),
       inject: [ConfigService]
     }),
     TerminusModule,
     UsersModule,
     AuthModule,
-    EmailModule,
     HealthModule
   ];
 };
