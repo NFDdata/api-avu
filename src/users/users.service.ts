@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { User } from './schema/user.schema';
 import { CreateUserDto } from './dto/createUser.dto';
 import { InjectModel } from 'nestjs-typegoose';
-import { DocumentType, ReturnModelType } from '@typegoose/typegoose';
+import { ReturnModelType } from '@typegoose/typegoose';
 import { JwtService } from '@nestjs/jwt';
 import { Login } from './dto/login.dto';
 import { UserLoginStatus } from '../constants';
@@ -28,7 +28,7 @@ export class UserService {
     return createdUser;
   }
 
-  async findOneBy<T>(query: T): Promise<DocumentType<User>> {
+  async findOneBy<T>(query: T): Promise<User> {
     const findUser = await this.userModel.findOne(query);
     return findUser;
   }
