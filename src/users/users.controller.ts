@@ -15,12 +15,7 @@ import { Request, Response } from 'express';
 import { UserService } from './users.service';
 import { bodyDelete } from './dto/deleteUser.dto';
 import { User } from './schema/user.schema';
-
-interface ApiResponse<T extends object> {
-  status: number;
-  message: string;
-  data: T;
-}
+import { ApiResponse } from '../helpers/metadata.model';
 
 @Controller('users')
 export class UsersController {
