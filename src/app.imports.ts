@@ -6,6 +6,7 @@ import { TypegooseModule } from 'nestjs-typegoose';
 import { TerminusModule } from '@nestjs/terminus';
 import { HealthModule } from './health/health.module';
 import { AuthModule } from './auth/auth.module';
+import { ValidateModule } from './validate/validate.module';
 
 export const AppImports = (
   env: NodeJS.ProcessEnv
@@ -30,6 +31,7 @@ export const AppImports = (
     TerminusModule,
     UsersModule,
     AuthModule,
-    HealthModule
+    HealthModule,
+    ValidateModule
   ];
 };

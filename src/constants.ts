@@ -6,3 +6,8 @@ export enum UserLoginStatus {
   USER_BLOCKED_FIRST = 'UserBlockedFirst',
   PENDING_CONFIRMATION = 'PendingConfirmation'
 }
+
+export enum DOCUMENT_TYPE {
+  RUT = 'rut',
+  PASSPORT = 'passport'
+}

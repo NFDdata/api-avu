@@ -7,6 +7,7 @@ import {
   HttpException,
   HttpStatus,
   Post,
+  Put,
   Req,
   Res
 } from '@nestjs/common';
@@ -89,6 +90,34 @@ export class UsersController {
       return res
         .status(500)
         .json({ status: 500, message: 'fail', error: error.response })
+        .send();
+    }
+  }
+
+  @Put()
+  @HttpCode(HttpStatus.OK)
+  async update(
+    @Req() req: Request,
+    @Res() res: Response
+  ): Promise<Response<ApiResponse<User>>> {
+    try {
+      const id = req.query.id as string;
+      const updatedUser = await this.userService.update(id, req.body);
+
+      const response: ApiResponse<User> = {
+        status: 200,
+        message: 'success',
+        data: updatedUser
+      };
+      // console.log('dime que viene', req.query.id, 'y aqui', req.body);
+
+      return res.status(200).json(response).send();
+    } catch (error) {
+      console.error(error);
+
+      return res
+        .status(500)
+        .json({ status: 500, message: 'fail', error: error.response.message })
         .send();
     }
   }

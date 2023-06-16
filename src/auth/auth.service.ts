@@ -1,19 +1,28 @@
+import { ValidateService } from './../validate/validate.service';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UserService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import { User } from 'src/users/schema/user.schema';
+import { User, UserStatus } from '../users/schema/user.schema';
 import { CreateUserDto } from '../users/dto/createUser.dto';
 import { cleanRut } from 'src/helpers/rut.helper';
 import * as bcryptjs from 'bcryptjs';
 import { Login } from '../users/dto/login.dto';
 import { Token } from './token.model';
 import { cleanUserModel } from '../helpers/cleanUserModel';
+import { DOCUMENT_TYPE } from '../constants';
+import axios from 'axios';
+
+export interface confirmResponse {
+  message: string;
+  status: boolean;
+}
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
-    private readonly jwt: JwtService
+    private readonly jwt: JwtService,
+    private readonly validateService: ValidateService
   ) {}
 
   async session(id: string): Promise<User> {
@@ -31,10 +40,20 @@ export class AuthService {
     )
       throw new BadRequestException('userExists');
 
+    const allowedValues = Object.values(DOCUMENT_TYPE);
+    if (!allowedValues.includes(createUserDto.documentType))
+      throw new BadRequestException('documentTypeNotAllowed');
+
     if (await this.userService.findByEmail(createUserDto.email))
       throw new BadRequestException('userExists');
 
     const password = await bcryptjs.hash(createUserDto.password, 10);
+    const activateAccountToken = this.jwt.sign(
+      { email: createUserDto.email },
+      {
+        expiresIn: '2 days'
+      }
+    );
 
     createUserDto.documentNumber = createUserDto.documentNumber
       ?.split('.')
@@ -42,7 +61,27 @@ export class AuthService {
       ?.split('-')
       ?.join('');
 
-    const user = await this.userService.create({ ...createUserDto, password });
+    const user = await this.userService.create({
+      ...createUserDto,
+      password,
+      activateAccountToken
+    });
+
+    if (user)
+      await axios.post(
+        `${process.env.API_EMAIL_ENDPOINT}`,
+        {
+          subject: 'activate account token',
+          plainText: `please follow the next link for activate account ${process.env.WEB_URL}/verify/${activateAccountToken}`,
+          address: user.email
+        },
+        {
+          headers: {
+            accept: '*/*',
+            'Content-Type': 'application/json'
+          }
+        }
+      );
 
     return user;
   }
@@ -60,5 +99,34 @@ export class AuthService {
     return {
       accessToken: this.jwt.sign(payload)
     };
+  }
+
+  async confirmAccount(token: string): Promise<confirmResponse> {
+    this.jwt.verify(token);
+
+    const decodeToken = this.jwt.decode(token);
+
+    const { email } = decodeToken as Record<string, string>;
+
+    const user = await this.userService.findByEmail(email);
+
+    if (!user) return { message: 'notUserFound', status: false };
+
+    if (
+      user.status !== UserStatus.PENDING_VALIDATE ||
+      user.activateAccountToken !== token
+    )
+      return { message: 'failConfirmAccount', status: false };
+
+    user.status = UserStatus.ACTIVE;
+    user.activateAccountToken = null;
+
+    const userId = user._id as unknown as string;
+
+    await this.userService.update(userId, user);
+
+    await this.validateService.create(user);
+
+    return { message: 'confirmedAccount', status: true };
   }
 }

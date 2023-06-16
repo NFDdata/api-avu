@@ -1,3 +1,4 @@
+import { ValidateModule } from './../validate/validate.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
@@ -22,7 +23,8 @@ import { AuthController } from './auth.controller';
       }),
       inject: [ConfigService]
     }),
-    UsersModule
+    UsersModule,
+    ValidateModule
   ],
   providers: [AuthService, JwtStrategy],
   controllers: [AuthController]

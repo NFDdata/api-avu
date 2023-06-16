@@ -67,7 +67,7 @@ export class AuthController {
       const token = await this.authService.login(user);
 
       const session = {
-        id: user._id as string,
+        id: user._id,
         email: user.email,
         accessToken: token.accessToken
       };
@@ -75,6 +75,39 @@ export class AuthController {
       return res
         .status(200)
         .json({ status: 200, message: 'success', data: session })
+        .send();
+    } catch (error) {
+      return res
+        .status(401)
+        .json({ status: 500, message: 'fail', error: error.response })
+        .send();
+    }
+  }
+
+  @Post('/confirmAccount')
+  @HttpCode(HttpStatus.OK)
+  async confirmAccount(
+    @Req() req: Request,
+    @Res() res: Response
+  ): Promise<Response<ApiResponse<Session>>> {
+    try {
+      const confirmAccount = await this.authService.confirmAccount(
+        req.body.token
+      );
+
+      if (!confirmAccount.status)
+        throw new HttpException(
+          confirmAccount.message,
+          HttpStatus.UNAUTHORIZED
+        );
+
+      return res
+        .status(200)
+        .json({
+          status: 200,
+          message: confirmAccount.message,
+          data: confirmAccount.status
+        })
         .send();
     } catch (error) {
       return res
