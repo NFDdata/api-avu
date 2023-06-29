@@ -11,12 +11,26 @@ import { AuthService } from './auth.service';
 import { UserService } from '../users/users.service';
 import { Request, Response } from 'express';
 import { ApiResponse } from '../helpers/metadata.model';
-import { User } from '../users/schema/user.schema';
+import { User, UserStatus } from '../users/schema/user.schema';
+import { DOCUMENT_TYPE } from '../constants';
 
 export class Session {
   id: string;
   email: string;
   accessToken: string;
+  name: string;
+  secondName: string;
+  lastName: string;
+  secondLastName: string;
+  documentNumber: string;
+  documentType: DOCUMENT_TYPE;
+  state: string;
+  city: string;
+  postalCode: string;
+  country: string;
+  phone: string;
+  status: UserStatus;
+  activateAccountToken?: string;
 }
 
 @Controller('auth')
@@ -67,8 +81,7 @@ export class AuthController {
       const token = await this.authService.login(user);
 
       const session = {
-        id: user._id,
-        email: user.email,
+        ...user,
         accessToken: token.accessToken
       };
 

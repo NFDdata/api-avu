@@ -72,7 +72,7 @@ export class AuthService {
         `${process.env.API_EMAIL_ENDPOINT}`,
         {
           subject: 'activate account token',
-          plainText: `please follow the next link for activate account ${process.env.WEB_URL}/verify/${activateAccountToken}`,
+          plainText: `please follow the next link for activate account ${process.env.WEB_URL}/verify/?verify=${activateAccountToken}`,
           address: user.email
         },
         {
@@ -111,6 +111,9 @@ export class AuthService {
     const user = await this.userService.findByEmail(email);
 
     if (!user) return { message: 'notUserFound', status: false };
+
+    if (user.status === UserStatus.ACTIVE)
+      return { message: 'accountConfirmed', status: true };
 
     if (
       user.status !== UserStatus.PENDING_VALIDATE ||

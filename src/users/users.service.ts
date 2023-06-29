@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { User } from './schema/user.schema';
+import { User, UserStatus } from './schema/user.schema';
 import { CreateUserDto, UpdateUserInput } from './dto/createUser.dto';
 import { InjectModel } from 'nestjs-typegoose';
 import { ReturnModelType } from '@typegoose/typegoose';
@@ -8,6 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Login } from './dto/login.dto';
 import { UserLoginStatus } from '../constants';
 import * as bcryptjs from 'bcryptjs';
+import { cleanUserModel } from '../helpers/cleanUserModel';
 
 @Injectable()
 export class UserService {
@@ -61,12 +62,15 @@ export class UserService {
 
     if (!user) return UserLoginStatus.USER_BLOCKED;
 
+    if (user.status === UserStatus.PENDING_VALIDATE)
+      return UserLoginStatus.PENDING_CONFIRMATION;
+
     const valid = await bcryptjs.compare(password, user.password);
 
     let returnMessage = '';
 
     if (!valid) returnMessage = UserLoginStatus.WRONG_CREDENTIALS;
 
-    return valid ? user : returnMessage;
+    return valid ? cleanUserModel(user) : returnMessage;
   }
 }
